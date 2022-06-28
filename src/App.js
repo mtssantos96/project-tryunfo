@@ -12,10 +12,10 @@ class App extends React.Component {
       cardAttr2: '',
       cardAttr3: '',
       cardImage: '',
-      cardRare: '',
+      cardRare: 'normal',
       cardTrunfo: false,
       hasTrunfo: false,
-      isSaveButtonDisabled: false,
+      isSaveButtonDisabled: true,
     };
   }
 
@@ -28,7 +28,49 @@ class App extends React.Component {
     });
   }
 
+  validateForm = () => {
+    const {
+      cardName,
+      cardDescription,
+      cardImage,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+    } = this.state;
+
+    const maxValue = 90;
+    const maxSum = 210;
+
+    const props = [
+      cardName,
+      cardDescription,
+      cardImage,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+    ];
+
+    const verifyProps = props.every((prop) => prop !== '');
+    const attributes = [cardAttr1, cardAttr2, cardAttr3];
+    const sum = attributes
+      .reduce(((acc, curr) => acc + Number(curr)), 0);
+    const limit = attributes
+      .every((attribute) => attribute >= 0 && attribute <= maxValue);
+    const verifyMaxSum = (sum <= maxSum);
+    if (verifyProps === true && sum === true && limit === true && verifyMaxSum === true) {
+      this.setState({
+        isSaveButtonDisabled: false,
+      });
+    } else {
+      this.setState({
+        isSaveButtonDisabled: true,
+      });
+    }
+  }
+
   render() {
+    this.validateForm();
+
     const { cardName, cardDescription, cardAttr1, cardAttr2,
       cardAttr3, cardImage, cardRare, cardTrunfo, hasTrunfo,
       isSaveButtonDisabled,
