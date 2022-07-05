@@ -12,7 +12,7 @@ class App extends React.Component {
       cardAttr2: '',
       cardAttr3: '',
       cardImage: '',
-      cardRare: '',
+      cardRare: 'normal',
       cardTrunfo: false,
       hasTrunfo: false,
       isSaveButtonDisabled: true,
@@ -50,6 +50,7 @@ class App extends React.Component {
       cardAttr1,
       cardAttr2,
       cardAttr3,
+      cardTrunfo,
     };
 
     const stateReset = [
@@ -57,9 +58,9 @@ class App extends React.Component {
       { target: { name: 'cardDescription', value: '' } },
       { target: { name: 'cardImage', value: '' } },
       { target: { name: 'cardRare', value: 'normal' } },
-      { target: { name: 'cardAttr1', value: 0 } },
-      { target: { name: 'cardAttr2', value: 0 } },
-      { target: { name: 'cardAttr3', value: 0 } },
+      { target: { name: 'cardAttr1', value: '0' } },
+      { target: { name: 'cardAttr2', value: '0' } },
+      { target: { name: 'cardAttr3', value: '0' } },
       { target: { name: 'cardTrunfo', value: false } },
     ];
 
@@ -107,6 +108,24 @@ class App extends React.Component {
     this.setState({ isSaveButtonDisabled: result });
   }
 
+  deleteCard = ({ target }) => {
+    const { savedCards } = this.state;
+    const cards = savedCards
+      .filter(({ cardName }) => cardName !== target.id);
+    this.setState({ savedCards: cards }, () => this.checkTheTrunfo());
+  }
+
+  checkTheTrunfo() {
+    const { savedCards } = this.state;
+    const status = savedCards
+      .some(({ cardTrunfo }) => cardTrunfo === true);
+    if (savedCards.length > 0) {
+      this.setState({ hasTrunfo: status });
+    } else {
+      this.setState({ hasTrunfo: false });
+    }
+  }
+
   render() {
     const {
       cardName,
@@ -140,20 +159,41 @@ class App extends React.Component {
           onInputChange={ this.handleChanger }
           onSaveButtonClick={ this.saveCard }
         />
+        <Card
+          cardName={ cardName }
+          cardDescription={ cardDescription }
+          cardAttr1={ cardAttr1 }
+          cardAttr2={ cardAttr2 }
+          cardAttr3={ cardAttr3 }
+          cardImage={ cardImage }
+          cardRare={ cardRare }
+          cardTrunfo={ cardTrunfo }
+        />
         <section>
-          {savedCards.length > 0 ? <h2>Todas as cartas</h2> : ''}
+          { savedCards.length > 0 ? <h2>Todas as cartas</h2> : '' }
           { savedCards.map((card) => (
-            <Card
-              key={ card.cardName }
-              cardName={ card.cardName }
-              cardDescription={ card.cardDescription }
-              cardAttr1={ card.cardAttr1 }
-              cardAttr2={ card.cardAttr2 }
-              cardAttr3={ card.cardAttr3 }
-              cardImage={ card.cardImage }
-              cardRare={ card.cardRare }
-              cardTrunfo={ card.cardTrunfo }
-            />
+            <div key={ card.cardName }>
+              <Card
+                cardName={ card.cardName }
+                cardDescription={ card.cardDescription }
+                cardAttr1={ card.cardAttr1 }
+                cardAttr2={ card.cardAttr2 }
+                cardAttr3={ card.cardAttr3 }
+                cardImage={ card.cardImage }
+                cardRare={ card.cardRare }
+                cardTrunfo={ card.cardTrunfo }
+              />
+              <button
+                data-testid="delete-button"
+                id={ card.cardName }
+                onClick={ (event) => {
+                  this.deleteCard(event);
+                } }
+                type="button"
+              >
+                Excluir
+              </button>
+            </div>
           ))}
         </section>
       </div>
