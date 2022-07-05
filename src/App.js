@@ -38,6 +38,8 @@ class App extends React.Component {
       cardAttr1,
       cardAttr2,
       cardAttr3,
+      cardTrunfo,
+      hasTrunfo,
     } = this.state;
 
     const newCard = {
@@ -58,10 +60,13 @@ class App extends React.Component {
       { target: { name: 'cardAttr1', value: 0 } },
       { target: { name: 'cardAttr2', value: 0 } },
       { target: { name: 'cardAttr3', value: 0 } },
+      { target: { name: 'cardTrunfo', value: false } },
     ];
+
     this.setState((previousState) => ({
       savedCards: [...previousState.savedCards, newCard],
     }), () => stateReset.forEach((target) => this.handleChanger(target)));
+    if (hasTrunfo === false) this.setState(({ hasTrunfo: cardTrunfo }));
   }
 
   validateButton = () => {
