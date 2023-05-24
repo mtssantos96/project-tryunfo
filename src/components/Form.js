@@ -3,10 +3,21 @@ import PropTypes from 'prop-types';
 
 class Form extends React.Component {
   render() {
-    const { cardName, cardDescription, cardAttr1, cardAttr2,
-      cardAttr3, cardImage, cardRare, cardTrunfo, hasTrunfo,
-      isSaveButtonDisabled, onInputChange, onSaveButtonClick,
+    const {
+      cardName,
+      cardDescription,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardImage,
+      cardRare,
+      cardTrunfo,
+      hasTrunfo,
+      isSaveButtonDisabled,
+      onInputChange,
+      onSaveButtonClick,
     } = this.props;
+
     return (
       <div>
         <label htmlFor="cardName">
@@ -82,7 +93,9 @@ class Form extends React.Component {
             <option value="muito raro">Muito raro</option>
           </select>
         </label>
-        {hasTrunfo === false ? (
+        {hasTrunfo ? (
+          <h3>Você já tem um Super Trunfo em seu baralho</h3>
+        ) : (
           <label htmlFor="cardTrunfo">
             <input
               name="cardTrunfo"
@@ -93,8 +106,6 @@ class Form extends React.Component {
             />
             <span>Super Trunfo</span>
           </label>
-        ) : (
-          <h3>Você já tem um Super Trunfo em seu baralho</h3>
         )}
         <button
           type="submit"
