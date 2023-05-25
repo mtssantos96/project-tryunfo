@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import styles from './style.module.css';
 
 class App extends React.Component {
   constructor() {
@@ -160,8 +161,7 @@ class App extends React.Component {
     });
 
     return (
-
-      <div>
+      <div className={ styles.appContainer }>
         <h1>Tryunfo</h1>
         <Form
           cardName={ cardName }

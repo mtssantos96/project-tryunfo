@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styles from './style.module.css';
 
 class Form extends React.Component {
   render() {
@@ -19,7 +20,7 @@ class Form extends React.Component {
     } = this.props;
 
     return (
-      <div>
+      <div className={ styles.formContainer }>
         <label htmlFor="cardName">
           <p>Nome</p>
           <input
